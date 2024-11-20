@@ -1,8 +1,9 @@
 import express from "express";
-import router from "./Router";
+import router from "./routes/Router";
 import db from "./config/db";
 import cors, { CorsOptions } from "cors";
 import morgan from "morgan";
+import authRoutes from "./routes/authRoutes";
 //conectar a bd
 async function connectDB() {
     try {
@@ -34,5 +35,6 @@ server.use(cors(corsOptions));
 server.use(morgan("dev"));
 server.use(express.json());
 server.use("/api", router);
+server.use("/api/auth", authRoutes);
 
 export default server;

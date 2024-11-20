@@ -18,7 +18,6 @@ export const getFormularioById = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        // Buscar el formulario por ID e incluir todas sus preguntas y opciones asociadas
         const formulario = await Formulario.findByPk(id, {
             include: [
                 {
@@ -58,12 +57,10 @@ export const getFormularioById = async (req: Request, res: Response) => {
             },
         });
 
-        // Verificar si el formulario existe
         if (!formulario) {
             return res.status(404).json({ error: "El formulario no existe" });
         }
 
-        // Devolver el formulario junto con sus preguntas y opciones
         res.json({ data: formulario });
     } catch (error) {
         console.error(

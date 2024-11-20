@@ -6,30 +6,15 @@ import {
     getFormularioById,
     updateFormulario,
     deleteFormulario,
-} from "./handlers/formulario";
-import { handleInputErrors } from "./middleware";
+} from "../handlers/formulario";
+import { handleInputErrors } from "../middleware";
 import {
     createPregunta,
     getPreguntaById,
     getPreguntas,
-} from "./handlers/pregunta";
-import { createUsuario, getUsuarioById } from "./handlers/usuario";
+} from "../handlers/pregunta";
+import { createUsuario, getUsuarioById } from "../handlers/usuario";
 const router = Router();
-const usuarioRouter = Router();
-
-usuarioRouter.post(
-    "/",
-    body("nombre").notEmpty().withMessage("El nombre no puede ir vacio"),
-    body("apellido").notEmpty().withMessage("el apellido no puede ir vacio"),
-    handleInputErrors,
-    createUsuario
-);
-usuarioRouter.get(
-    "/:id",
-    param("id").isInt().withMessage("id no valido"),
-    handleInputErrors,
-    getUsuarioById
-);
 const formularioRouter = Router();
 
 formularioRouter.get("/", getFormularios);
@@ -96,5 +81,4 @@ preguntaRouter.get(
 
 router.use("/formulario", formularioRouter);
 router.use("/pregunta", preguntaRouter);
-router.use("/usuario", usuarioRouter);
 export default router;

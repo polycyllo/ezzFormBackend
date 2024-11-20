@@ -7,6 +7,7 @@ import {
     HasMany,
     PrimaryKey,
     AutoIncrement,
+    Unique,
 } from "sequelize-typescript";
 import Formulario from "./Formulario.model";
 
@@ -35,13 +36,14 @@ class Usuario extends Model {
     })
     declare apellido: string;
 
+    @Unique
     @Column({
         type: DataType.STRING(40),
         allowNull: false,
     })
     declare correoelectronico: string;
 
-    @Default(DataType.NOW) // Si quieres una fecha por defecto al crear
+    @Default(DataType.NOW)
     @Column({
         type: DataType.DATE,
     })
@@ -53,6 +55,11 @@ class Usuario extends Model {
     })
     declare contrasenia: string;
 
+    @Default(false)
+    @Column({
+        type: DataType.BOOLEAN(),
+    })
+    declare confirmado: boolean;
     @HasMany(() => Formulario)
     declare formularios: Formulario[];
 }
