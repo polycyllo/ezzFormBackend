@@ -27,4 +27,21 @@ router.get(
     param("id").isInt().withMessage("id no valido"),
     handleInputErrors
 );
+
+router.post(
+    "/confirm-account",
+    body("token").notEmpty().withMessage("El token no puede ir vacio"),
+    handleInputErrors,
+    AuthController.confirmAccount
+);
+
+router.post(
+    "/login",
+    body("correoelectronico").isEmail().withMessage("correo no valido"),
+    body("contrasenia")
+        .notEmpty()
+        .withMessage("El password no puede estar vacio"),
+    handleInputErrors,
+    AuthController.login
+);
 export default router;
