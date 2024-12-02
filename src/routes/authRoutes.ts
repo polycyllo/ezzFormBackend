@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { AuthController } from "../controllers/AuthController";
 import { body, param } from "express-validator";
-import { handleInputErrors } from "../middleware";
+import { handleInputErrors } from "../middleware/validation";
+import { authenticate } from "../middleware/auth";
 
 const router = Router();
 
@@ -22,11 +23,6 @@ router.post(
     handleInputErrors,
     AuthController.createAccount
 );
-router.get(
-    "/:id",
-    param("id").isInt().withMessage("id no valido"),
-    handleInputErrors
-);
 
 router.post(
     "/confirm-account",
@@ -44,4 +40,13 @@ router.post(
     handleInputErrors,
     AuthController.login
 );
+
+router.post(
+    "/request-code",
+    body("correoelectronico").isEmail().withMessage("correo no valido"),
+    handleInputErrors,
+    AuthController.requestConfirmationToken
+);
+
+router.get("/user", authenticate, AuthController.getUsuario);
 export default router;

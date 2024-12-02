@@ -4,6 +4,7 @@ import db from "./config/db";
 import cors, { CorsOptions } from "cors";
 import morgan from "morgan";
 import authRoutes from "./routes/authRoutes";
+import cookiePaser from "cookie-parser";
 //conectar a bd
 async function connectDB() {
     try {
@@ -28,10 +29,11 @@ const corsOptions: CorsOptions = {
             callback(new Error("Origen no permitido por CORS"));
         }
     },
+    credentials: true,
 };
 
 server.use(cors(corsOptions));
-
+server.use(cookiePaser());
 server.use(morgan("dev"));
 server.use(express.json());
 server.use("/api", router);

@@ -5,6 +5,8 @@ import Token from "../models/Token";
 import { generateToken } from "../utils/token";
 import { AuthEmail } from "../emails/AuthEmail";
 import { check } from "express-validator";
+import { generateJWT } from "../utils/jwt";
+import { resolveHostname } from "nodemailer/lib/shared";
 
 export class AuthController {
     static createAccount = async (req: Request, res: Response) => {
@@ -64,6 +66,7 @@ export class AuthController {
     static login = async (req: Request, res: Response) => {
         try {
             const { correoelectronico, contrasenia } = req.body;
+            console.log("Cookies recibidas:", req.cookies);
             const usuario = await Usuario.findOne({
                 where: {
                     correoelectronico: correoelectronico,
@@ -101,9 +104,59 @@ export class AuthController {
 
                 return res.status(401).json({ error: error.message });
             }
-            res.send("Autenticado...");
+            const token = generateJWT({ codusuario: usuario.codusuario });
+
+            res.cookie("authToken", token, {
+                httpOnly: false,
+                secure: process.env.NODE_ENV === "production",
+                sameSite:
+                    process.env.NODE_ENV === "production" ? "strict" : "lax",
+                maxAge: 60 * 60 * 1000,
+            });
+            res.send(token);
         } catch (error) {
             res.status(500).json({ error: "hubo un error" });
         }
+    };
+
+    static requestConfirmationToken = async (req: Request, res: Response) => {
+        try {
+            const { correoelectronico } = req.body;
+
+            //este usuario tiene que existir
+            const usuario = await Usuario.findOne({
+                where: {
+                    correoelectronico: correoelectronico,
+                },
+            });
+            if (!usuario) {
+                const error = new Error("el usuario no esta registrado");
+                return res.status(404).json({ error: error.message });
+            }
+
+            if (usuario.confirmado) {
+                const error = new Error("el usuario ya esta confirmado");
+                return res.status(409).json({ error: error.message });
+            }
+
+            const token = new Token();
+            token.token = generateToken();
+            token.iduser = usuario.codusuario;
+            await token.save();
+
+            //enviar email
+            AuthEmail.sendConfirmationEmail({
+                correoelectronico: usuario.correoelectronico,
+                name: usuario.nombre + " " + usuario.apellido,
+                token: token.token,
+            });
+            res.send("Se envio un nuevo token");
+        } catch (error) {
+            res.status(500).json({ error: "hubo un error" });
+        }
+    };
+
+    static getUsuario = async (req: Request, res: Response) => {
+        return res.json(req.user);
     };
 }

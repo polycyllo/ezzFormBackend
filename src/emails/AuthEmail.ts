@@ -13,7 +13,7 @@ export class AuthEmail {
             text: "ezzForm - confirma tu cuenta",
             html: `<p>Hola: ${usuario.name}, has creado tu cuenta en ezzForm, ya casi esta todo listo, por favor debes confirmar tu cuenta</p>
             <p>Visita el siguiente enlace:</p>
-            <a href="">Confirma cuenta</a>
+            <a href="${process.env.frontend}/auth/confirm-account">Confirma cuenta</a>
             <p>E ingresa el siguiente codigo: <b>${usuario.token}</b></p>    
             <p>Este token expira en 10 minutos</p>
             `,

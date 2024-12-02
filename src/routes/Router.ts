@@ -7,20 +7,22 @@ import {
     updateFormulario,
     deleteFormulario,
 } from "../handlers/formulario";
-import { handleInputErrors } from "../middleware";
+import { handleInputErrors } from "../middleware/validation";
 import {
     createPregunta,
     getPreguntaById,
     getPreguntas,
 } from "../handlers/pregunta";
 import { createUsuario, getUsuarioById } from "../handlers/usuario";
+import { authenticate } from "../middleware/auth";
 const router = Router();
 const formularioRouter = Router();
 
-formularioRouter.get("/", getFormularios);
+formularioRouter.get("/", authenticate, getFormularios);
 
 formularioRouter.get(
     "/:id",
+    authenticate,
     param("id").isInt().withMessage("id no valido"),
     handleInputErrors,
     getFormularioById
@@ -28,6 +30,7 @@ formularioRouter.get(
 
 formularioRouter.post(
     "/",
+    authenticate,
     body("nombreformulario")
         .notEmpty()
         .withMessage("El nombre del form no puede ir vacio"),

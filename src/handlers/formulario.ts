@@ -6,6 +6,9 @@ import Opcion from "../models/Opcion.model";
 export const getFormularios = async (req: Request, res: Response) => {
     try {
         const formularios = await Formulario.findAll({
+            where: {
+                codusuario: req.user?.codusuario,
+            },
             attributes: { exclude: ["codusuario"] },
         });
         res.json({ data: formularios });
@@ -29,7 +32,6 @@ export const getFormularioById = async (req: Request, res: Response) => {
                             as: "opciones",
                             attributes: {
                                 exclude: [
-                                    "codusuario",
                                     "codformulario",
                                     "codpregunta",
                                     "codrespuesta",
@@ -39,7 +41,6 @@ export const getFormularioById = async (req: Request, res: Response) => {
                     ],
                     attributes: {
                         exclude: [
-                            "codusuario",
                             "codformulario",
                             "codpregunta",
                             "codrespuesta",
@@ -48,17 +49,17 @@ export const getFormularioById = async (req: Request, res: Response) => {
                 },
             ],
             attributes: {
-                exclude: [
-                    "codusuario",
-                    "codformulario",
-                    "codpregunta",
-                    "codrespuesta",
-                ],
+                exclude: ["codformulario", "codpregunta", "codrespuesta"],
             },
         });
 
         if (!formulario) {
             return res.status(404).json({ error: "El formulario no existe" });
+        }
+        if (
+            formulario.codusuario.toString() !== req.user?.codusuario.toString()
+        ) {
+            return res.status(404).json({ error: "Accion no valida" });
         }
 
         res.json({ data: formulario });
@@ -80,6 +81,7 @@ export const createFormulario = async (req: Request, res: Response) => {
         const formulario = await Formulario.create({
             nombreformulario,
             descripcion,
+            codusuario: req.user.codusuario,
         });
         for (const preguntaData of preguntas) {
             const pregunta = await Pregunta.create({

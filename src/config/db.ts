@@ -11,6 +11,7 @@ const db = new Sequelize(
         dialect: process.env.DB_DIALECT as Dialect,
         port: Number(process.env.DB_PORT),
         models: [__dirname + "/../models/**/*.ts"],
+        logging: false,
     }
 );
 

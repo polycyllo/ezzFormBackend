@@ -25,7 +25,6 @@ class Formulario extends Model {
 
     // Relacionar el formulario con el usuario
     @ForeignKey(() => Usuario)
-    @Default(1)
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
