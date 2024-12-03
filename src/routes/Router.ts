@@ -56,8 +56,10 @@ formularioRouter.put(
 formularioRouter.patch("/", (req, res) => {
     res.json("es un PATCH");
 });
+
 formularioRouter.delete(
     "/:id",
+    authenticate,
     param("id").isInt().withMessage("id no valido"),
     handleInputErrors,
     deleteFormulario

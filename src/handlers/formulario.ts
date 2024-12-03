@@ -86,7 +86,7 @@ export const createFormulario = async (req: Request, res: Response) => {
         for (const preguntaData of preguntas) {
             const pregunta = await Pregunta.create({
                 pregunta: preguntaData.pregunta,
-                tipopregunta: preguntaData.pregunta,
+                tipopregunta: preguntaData.tipopregunta,
             });
 
             await formulario.$add("pregunta", pregunta);
@@ -119,14 +119,43 @@ export const updateFormulario = async (req: Request, res: Response) => {
 };
 
 export const deleteFormulario = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const formulario = await Formulario.findByPk(id);
-    if (!formulario) {
-        return res.status(404).json({
-            error: "el formulario no existe",
+    try {
+        const { id } = req.params;
+        const formulario = await Formulario.findByPk(id);
+
+        if (!formulario) {
+            return res.status(404).json({
+                error: "El formulario no existe",
+            });
+        }
+
+        const preguntas = await Pregunta.findAll({
+            where: {
+                codformulario: id,
+            },
+        });
+
+        for (const pregunta of preguntas) {
+            await Opcion.destroy({
+                where: {
+                    codpregunta: pregunta.codpregunta,
+                },
+            });
+        }
+
+        await Pregunta.destroy({
+            where: {
+                codformulario: id,
+            },
+        });
+
+        await formulario.destroy();
+
+        return res.json({ message: "Formulario eliminado correctamente" });
+    } catch (error) {
+        console.error("Error al eliminar el formulario:", error);
+        res.status(500).json({
+            error: "Hubo un error al eliminar el formulario",
         });
     }
-    await formulario.destroy();
-
-    res.json({ data: "Formulario eliminado" });
 };
