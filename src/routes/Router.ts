@@ -6,23 +6,27 @@ import {
     getFormularioById,
     updateFormulario,
     deleteFormulario,
+    createTokenForm,
+    getLinksForm,
 } from "../handlers/formulario";
 import { handleInputErrors } from "../middleware/validation";
-import {
-    createPregunta,
-    getPreguntaById,
-    getPreguntas,
-} from "../handlers/pregunta";
-import { createUsuario, getUsuarioById } from "../handlers/usuario";
+
 import { authenticate } from "../middleware/auth";
+import { authenticateAndAuthorize } from "../middleware/authWithRol";
 const router = Router();
 const formularioRouter = Router();
 
-formularioRouter.get("/", authenticate, getFormularios);
+formularioRouter.get(
+    "/",
+    authenticate,
+    authenticateAndAuthorize("user"),
+    getFormularios
+);
 
 formularioRouter.get(
     "/:id",
     authenticate,
+    authenticateAndAuthorize("user"),
     param("id").isInt().withMessage("id no valido"),
     handleInputErrors,
     getFormularioById
@@ -31,6 +35,7 @@ formularioRouter.get(
 formularioRouter.post(
     "/",
     authenticate,
+    authenticateAndAuthorize("user"),
     body("nombreformulario")
         .notEmpty()
         .withMessage("El nombre del form no puede ir vacio"),
@@ -39,6 +44,15 @@ formularioRouter.post(
         .withMessage("La descripcion del form no puede ir vacio"),
     handleInputErrors,
     createFormulario
+);
+
+formularioRouter.post(
+    "/:id/compartir",
+    authenticate,
+    authenticateAndAuthorize("user"),
+    param("id").isInt().withMessage("El ID del formulario debe ser un entero"),
+    handleInputErrors,
+    createTokenForm
 );
 
 formularioRouter.put(
@@ -53,37 +67,16 @@ formularioRouter.put(
     handleInputErrors,
     updateFormulario
 );
-formularioRouter.patch("/", (req, res) => {
-    res.json("es un PATCH");
-});
 
 formularioRouter.delete(
     "/:id",
     authenticate,
+    authenticateAndAuthorize("user"),
     param("id").isInt().withMessage("id no valido"),
     handleInputErrors,
     deleteFormulario
 );
 
-const preguntaRouter = Router();
-preguntaRouter.post(
-    "/",
-    body("pregunta").notEmpty().withMessage("La pregunta no puede ir vacia"),
-    body("tipopregunta")
-        .notEmpty()
-        .withMessage("El tipo pregunta no puede ir vacio"),
-    handleInputErrors,
-    createPregunta
-);
-
-preguntaRouter.get("/", getPreguntas);
-preguntaRouter.get(
-    "/:id",
-    param("id").isInt().withMessage("id no valido"),
-    handleInputErrors,
-    getPreguntaById
-);
-
 router.use("/formulario", formularioRouter);
-router.use("/pregunta", preguntaRouter);
+
 export default router;

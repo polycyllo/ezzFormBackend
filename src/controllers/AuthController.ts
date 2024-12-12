@@ -7,6 +7,7 @@ import { AuthEmail } from "../emails/AuthEmail";
 import { check } from "express-validator";
 import { generateJWT } from "../utils/jwt";
 import { resolveHostname } from "nodemailer/lib/shared";
+import Rol from "../models/Rol.model";
 
 export class AuthController {
     static createAccount = async (req: Request, res: Response) => {
@@ -30,6 +31,10 @@ export class AuthController {
             token.iduser = usuario.codusuario;
             await token.save();
 
+            const rol = await Rol.create({
+                codusuario: usuario.codusuario,
+                nombrerol: "user",
+            });
             //enviar email
             AuthEmail.sendConfirmationEmail({
                 correoelectronico: usuario.correoelectronico,
@@ -104,15 +109,21 @@ export class AuthController {
 
                 return res.status(401).json({ error: error.message });
             }
-            const token = generateJWT({ codusuario: usuario.codusuario });
+
+            //const rol = await Rol.findByPk(usuario.codusuario);
+            const token = generateJWT({
+                codusuario: usuario.codusuario,
+                //rol: rol.nombrerol || "user",
+            });
 
             res.cookie("authToken", token, {
                 httpOnly: false,
                 secure: process.env.NODE_ENV === "production",
                 sameSite:
                     process.env.NODE_ENV === "production" ? "strict" : "lax",
-                maxAge: 1 * 60 * 60 * 1000,
+                maxAge: 2 * 60 * 60 * 1000,
             });
+            //console.log("token ", token);
             res.send(token);
         } catch (error) {
             res.status(500).json({ error: "hubo un error" });
@@ -157,6 +168,17 @@ export class AuthController {
     };
 
     static getUsuario = async (req: Request, res: Response) => {
-        return res.json(req.user);
+        const user = req.user.dataValues;
+
+        const rol = await Rol.findOne({
+            where: {
+                codusuario: user.codusuario,
+            },
+        });
+        const ans = {
+            ...user,
+            rol: rol.nombrerol,
+        };
+        return res.json(ans);
     };
 }

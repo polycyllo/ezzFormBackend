@@ -1,9 +1,12 @@
 import express from "express";
 import router from "./routes/Router";
+import adminRoutes from "./routes/adminRoutes";
 import db from "./config/db";
 import cors, { CorsOptions } from "cors";
 import morgan from "morgan";
 import authRoutes from "./routes/authRoutes";
+import respuestasRoutes from "./routes/respuestasRoutes";
+import linkRoutes from "./routes/linkRoutes";
 import cookiePaser from "cookie-parser";
 //conectar a bd
 async function connectDB() {
@@ -23,7 +26,11 @@ const server = express();
 
 const corsOptions: CorsOptions = {
     origin: function (origin, callback) {
-        if (!origin || origin === "http://localhost:5173") {
+        if (
+            !origin ||
+            origin === "http://localhost:5173" ||
+            origin === "http://26.156.22.45:5173"
+        ) {
             callback(null, true);
         } else {
             callback(new Error("Origen no permitido por CORS"));
@@ -31,12 +38,13 @@ const corsOptions: CorsOptions = {
     },
     credentials: true,
 };
-
 server.use(cors(corsOptions));
 server.use(cookiePaser());
 server.use(morgan("dev"));
 server.use(express.json());
+server.use("/api/admin", adminRoutes);
 server.use("/api", router);
 server.use("/api/auth", authRoutes);
-
+server.use("/api", linkRoutes);
+server.use("/api/respuestas", respuestasRoutes);
 export default server;

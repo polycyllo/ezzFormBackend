@@ -10,6 +10,8 @@ import {
     Unique,
 } from "sequelize-typescript";
 import Formulario from "./Formulario.model";
+import FormularioRespondido from "./FormularioRespondido.model";
+import Rol from "./Rol.model";
 
 @Table({
     tableName: "usuario",
@@ -62,6 +64,12 @@ class Usuario extends Model {
     declare confirmado: boolean;
     @HasMany(() => Formulario)
     declare formularios: Formulario[];
+
+    @HasMany(() => FormularioRespondido)
+    declare formularioRespondido: FormularioRespondido[];
+
+    @HasMany(() => Rol)
+    declare roles: Rol[];
 }
 
 export default Usuario;

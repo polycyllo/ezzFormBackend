@@ -1,0 +1,13 @@
+import { Request, Response } from "express";
+export declare const getFormularios: (req: Request, res: Response) => Promise<void>;
+export declare const getFormularioById: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const createFormulario: (req: Request, res: Response) => Promise<void>;
+export declare const updateFormulario: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const deleteFormulario: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const createTokenForm: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const getLinksForm: (req: Request, res: Response) => Promise<void>;
+export declare const deleteLinkForm: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const responderForm: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const getFormularioByToken: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const getRespuestasPorRangoFechas: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;
+export declare const getFormularioRespondidoByUser: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>;

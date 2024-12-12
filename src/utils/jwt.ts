@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 type UserPayload = {
     codusuario: number;
+    //rol: string;
 };
 export const generateJWT = (payload: UserPayload) => {
     const token = jwt.sign(payload, process.env.JSW_PWD, {
-        expiresIn: "10m",
+        expiresIn: "50m",
     });
     return token;
 };

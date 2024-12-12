@@ -9,6 +9,7 @@ import {
 } from "sequelize-typescript";
 import Formulario from "./Formulario.model";
 import Opcion from "./Opcion.model";
+import RespuestaUsuario from "./RespuestaUsuario";
 @Table({
     tableName: "pregunta",
     timestamps: false,
@@ -39,6 +40,9 @@ class Pregunta extends Model {
 
     @HasMany(() => Opcion)
     declare opciones: Opcion[];
+
+    @HasMany(() => RespuestaUsuario)
+    declare respuestasusuarios: RespuestaUsuario[];
 }
 
 export default Pregunta;

@@ -7,11 +7,11 @@ import {
     ForeignKey,
     BelongsTo,
 } from "sequelize-typescript";
-import Usuario from "./Usuario.model"; // Importa el modelo de Usuario para la relación
+import Usuario from "./Usuario.model";
 
 @Table({
     tableName: "token",
-    timestamps: false, // Desactivamos el manejo de timestamps automáticos de Sequelize
+    timestamps: false,
 })
 class Token extends Model {
     @Column({
@@ -30,13 +30,13 @@ class Token extends Model {
     @BelongsTo(() => Usuario)
     declare user: Usuario;
 
-    @Default(DataType.NOW) // Para definir una fecha de creación predeterminada
+    @Default(DataType.NOW)
     @Column({
         type: DataType.DATE,
     })
     declare fechacreacion: Date;
 
-    @Default(() => new Date(Date.now() + 10 * 60 * 1000)) // Añade una expiración de 1 día
+    @Default(() => new Date(Date.now() + 10 * 60 * 1000))
     @Column({
         type: DataType.DATE,
     })

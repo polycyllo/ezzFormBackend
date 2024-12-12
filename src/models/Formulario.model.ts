@@ -23,15 +23,12 @@ class Formulario extends Model {
     })
     declare codformulario: number;
 
-    // Relacionar el formulario con el usuario
     @ForeignKey(() => Usuario)
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
     })
     declare codusuario: number;
-
-    // Relación con el modelo Usuario para tener acceso a los datos del usuario
     @BelongsTo(() => Usuario)
     declare usuario: Usuario;
 
@@ -51,7 +48,6 @@ class Formulario extends Model {
     })
     declare activo: boolean;
 
-    // Relación 1:N con el modelo Pregunta
     @HasMany(() => Pregunta)
     declare preguntas: Pregunta[];
 }
