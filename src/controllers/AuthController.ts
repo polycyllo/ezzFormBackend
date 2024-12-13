@@ -69,23 +69,13 @@ export class AuthController {
     static login = async (req: Request, res: Response) => {
         try {
             const { correoelectronico, contrasenia } = req.body;
-            console.log(
-                "correo de usuario y contra",
-                correoelectronico + " " + contrasenia
-            );
-            let usuario;
-            try {
-                usuario = await Usuario.findOne({
-                    where: {
-                        correoelectronico: correoelectronico,
-                    },
-                });
-            } catch (error) {
-                console.error("Error al buscar el usuario:", error);
-            }
 
-            console.log("Usuario encontrado:", usuario);
-            console.log("SILLEGAAAAAAAAAAAAA");
+            const usuario = await Usuario.findOne({
+                where: {
+                    correoelectronico: correoelectronico,
+                },
+            });
+
             if (!usuario) {
                 const error = new Error("Usuario no encontrado");
                 return res.status(401).json({ error: error.message });
@@ -128,7 +118,7 @@ export class AuthController {
                     process.env.NODE_ENV === "production" ? "strict" : "lax",
                 maxAge: 2 * 60 * 60 * 1000,
             });
-            console.log(token);
+            console.log("este es el token ", token);
             res.send(token);
         } catch (error) {
             res.status(500).json({ error: "hubo un error" });
