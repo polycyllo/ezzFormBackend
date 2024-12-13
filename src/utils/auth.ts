@@ -1,13 +1,12 @@
-import bcrypt from "bcrypt";
+import argon2 from "argon2";
 
 export const hashContrasenia = async (contrasenia: string) => {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(contrasenia, salt);
+    return await argon2.hash(contrasenia);
 };
 
 export const checkPassword = async (
     enteredPassword: string,
-    storeHash: string
+    storedHash: string
 ) => {
-    return await bcrypt.compare(enteredPassword, storeHash);
+    return await argon2.verify(storedHash, enteredPassword);
 };
