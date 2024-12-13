@@ -72,7 +72,7 @@ class AuthController {
     static login = async (req, res) => {
         try {
             const { correoelectronico, contrasenia } = req.body;
-            //console.log("Cookies recibidas:", req.cookies);
+            console.log("correo de usuario ", correoelectronico);
             const usuario = await Usuario_model_1.default.findOne({
                 where: {
                     correoelectronico: correoelectronico,
