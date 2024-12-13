@@ -26,6 +26,7 @@ const server = express();
 
 const corsOptions: CorsOptions = {
     origin: function (origin, callback) {
+        console.log("origin ", origin);
         if (
             !origin ||
             origin === "http://localhost:5173" ||
