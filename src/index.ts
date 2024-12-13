@@ -1,5 +1,6 @@
 import server from "./server";
 
-server.listen(4000, "0.0.0.0", () => {
-    console.log("Server running on http://0.0.0.0:4000");
+const PORT = process.env.PORT || (4000 as any);
+server.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
