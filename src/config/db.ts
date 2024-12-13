@@ -1,9 +1,10 @@
 import { Sequelize } from "sequelize-typescript";
 import dotenv from "dotenv";
+import { Dialect } from "sequelize";
 dotenv.config();
 
 const db = new Sequelize(process.env.DATABASE_URL!, {
-    dialect: "postgres",
+    dialect: "postgres" as Dialect,
     logging: false,
     models: [__dirname + "/../models/**/*.ts"],
 });
