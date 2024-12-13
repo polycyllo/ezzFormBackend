@@ -19,7 +19,7 @@ let Opcion = class Opcion extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     }),
@@ -28,7 +28,7 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => Pregunta_model_1.default),
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
     }),
     __metadata("design:type", Number)
 ], Opcion.prototype, "codpregunta", void 0);

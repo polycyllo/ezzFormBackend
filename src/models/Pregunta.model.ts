@@ -16,7 +16,7 @@ import RespuestaUsuario from "./RespuestaUsuario";
 })
 class Pregunta extends Model {
     @Column({
-        type: DataType.NUMBER,
+        type: DataType.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     })
@@ -24,7 +24,7 @@ class Pregunta extends Model {
 
     @ForeignKey(() => Formulario)
     @Column({
-        type: DataType.NUMBER,
+        type: DataType.INTEGER,
     })
     declare codformulario: number;
 

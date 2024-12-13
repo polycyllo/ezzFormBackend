@@ -20,7 +20,7 @@ let Pregunta = class Pregunta extends sequelize_typescript_1.Model {
 };
 __decorate([
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     }),
@@ -29,7 +29,7 @@ __decorate([
 __decorate([
     (0, sequelize_typescript_1.ForeignKey)(() => Formulario_model_1.default),
     (0, sequelize_typescript_1.Column)({
-        type: sequelize_typescript_1.DataType.NUMBER,
+        type: sequelize_typescript_1.DataType.INTEGER,
     }),
     __metadata("design:type", Number)
 ], Pregunta.prototype, "codformulario", void 0);

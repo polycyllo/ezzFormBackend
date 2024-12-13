@@ -27,16 +27,6 @@ async function connectDB() {
 }
 connectDB();
 const server = (0, express_1.default)();
-// const corsOptions: CorsOptions = {
-//     origin: function (origin, callback) {
-//         if (!origin || origin === "http://localhost:5173") {
-//             callback(null, true);
-//         } else {
-//             callback(new Error("Origen no permitido por CORS"));
-//         }
-//     },
-//     credentials: true,
-// };
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin ||

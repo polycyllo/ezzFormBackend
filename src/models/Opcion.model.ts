@@ -16,7 +16,7 @@ import RespuestaUsuario from "./RespuestaUsuario";
 })
 class Opcion extends Model {
     @Column({
-        type: DataType.NUMBER,
+        type: DataType.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     })
@@ -24,7 +24,7 @@ class Opcion extends Model {
 
     @ForeignKey(() => Pregunta)
     @Column({
-        type: DataType.NUMBER,
+        type: DataType.INTEGER,
     })
     declare codpregunta: number;
 

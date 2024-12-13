@@ -72,12 +72,13 @@ class AuthController {
     static login = async (req, res) => {
         try {
             const { correoelectronico, contrasenia } = req.body;
-            console.log("Cookies recibidas:", req.cookies);
+            //console.log("Cookies recibidas:", req.cookies);
             const usuario = await Usuario_model_1.default.findOne({
                 where: {
                     correoelectronico: correoelectronico,
                 },
             });
+            console.log("sillegaaaaaa");
             if (!usuario) {
                 const error = new Error("Usuario no encontrado");
                 return res.status(401).json({ error: error.message });
@@ -101,7 +102,6 @@ class AuthController {
                 const error = new Error("Contrasenia incorrecta");
                 return res.status(401).json({ error: error.message });
             }
-            //const rol = await Rol.findByPk(usuario.codusuario);
             const token = (0, jwt_1.generateJWT)({
                 codusuario: usuario.codusuario,
                 //rol: rol.nombrerol || "user",

@@ -71,12 +71,13 @@ export class AuthController {
     static login = async (req: Request, res: Response) => {
         try {
             const { correoelectronico, contrasenia } = req.body;
-            console.log("Cookies recibidas:", req.cookies);
+            //console.log("Cookies recibidas:", req.cookies);
             const usuario = await Usuario.findOne({
                 where: {
                     correoelectronico: correoelectronico,
                 },
             });
+            console.log("sillegaaaaaa");
             if (!usuario) {
                 const error = new Error("Usuario no encontrado");
                 return res.status(401).json({ error: error.message });
@@ -110,7 +111,6 @@ export class AuthController {
                 return res.status(401).json({ error: error.message });
             }
 
-            //const rol = await Rol.findByPk(usuario.codusuario);
             const token = generateJWT({
                 codusuario: usuario.codusuario,
                 //rol: rol.nombrerol || "user",
@@ -124,6 +124,7 @@ export class AuthController {
                 maxAge: 2 * 60 * 60 * 1000,
             });
             //console.log("token ", token);
+
             res.send(token);
         } catch (error) {
             res.status(500).json({ error: "hubo un error" });
