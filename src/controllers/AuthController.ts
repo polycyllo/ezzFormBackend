@@ -69,13 +69,16 @@ export class AuthController {
     static login = async (req: Request, res: Response) => {
         try {
             const { correoelectronico, contrasenia } = req.body;
-            console.log("correo de usuario ", correoelectronico);
+            console.log(
+                "correo de usuario y contra",
+                correoelectronico + contrasenia
+            );
             const usuario = await Usuario.findOne({
                 where: {
                     correoelectronico: correoelectronico,
                 },
             });
-            console.log("sillegaaaaaa");
+            console.log("SILLEGAAAAAAAAAAAAA");
             if (!usuario) {
                 const error = new Error("Usuario no encontrado");
                 return res.status(401).json({ error: error.message });
