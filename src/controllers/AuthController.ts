@@ -73,11 +73,18 @@ export class AuthController {
                 "correo de usuario y contra",
                 correoelectronico + " " + contrasenia
             );
-            const usuario = await Usuario.findOne({
-                where: {
-                    correoelectronico: correoelectronico,
-                },
-            });
+            let usuario;
+            try {
+                usuario = await Usuario.findOne({
+                    where: {
+                        correoelectronico: correoelectronico,
+                    },
+                });
+            } catch (error) {
+                console.error("Error al buscar el usuario:", error);
+            }
+
+            console.log("Usuario encontrado:", usuario);
             console.log("SILLEGAAAAAAAAAAAAA");
             if (!usuario) {
                 const error = new Error("Usuario no encontrado");
