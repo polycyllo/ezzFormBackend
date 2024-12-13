@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 type UserPayload = {
     codusuario: number;
-    //rol: string;
 };
 export const generateJWT = (payload: UserPayload) => {
     const token = jwt.sign(payload, process.env.JSW_PWD, {

@@ -13,7 +13,6 @@ export class AuthController {
     static createAccount = async (req: Request, res: Response) => {
         try {
             const { contrasenia, correoelectronico } = req.body;
-            //Prevenir dup
             const userExist = await Usuario.findOne({
                 where: {
                     correoelectronico: correoelectronico,
@@ -35,7 +34,6 @@ export class AuthController {
                 codusuario: usuario.codusuario,
                 nombrerol: "user",
             });
-            //enviar email
             AuthEmail.sendConfirmationEmail({
                 correoelectronico: usuario.correoelectronico,
                 name: usuario.nombre + " " + usuario.apellido,
@@ -88,7 +86,6 @@ export class AuthController {
                 token.token = generateToken();
                 await token.save();
 
-                //enviar email
                 AuthEmail.sendConfirmationEmail({
                     correoelectronico: usuario.correoelectronico,
                     name: usuario.nombre + " " + usuario.apellido,
@@ -113,7 +110,6 @@ export class AuthController {
 
             const token = generateJWT({
                 codusuario: usuario.codusuario,
-                //rol: rol.nombrerol || "user",
             });
 
             res.cookie("authToken", token, {
@@ -123,8 +119,6 @@ export class AuthController {
                     process.env.NODE_ENV === "production" ? "strict" : "lax",
                 maxAge: 2 * 60 * 60 * 1000,
             });
-            //console.log("token ", token);
-
             res.send(token);
         } catch (error) {
             res.status(500).json({ error: "hubo un error" });

@@ -55,19 +55,6 @@ formularioRouter.post(
     createTokenForm
 );
 
-formularioRouter.put(
-    "/:id",
-    param("id").isInt().withMessage("id no valido"),
-    body("nombreformulario")
-        .notEmpty()
-        .withMessage("el nombre del form no puede ir vacio"),
-    body("descripcion")
-        .notEmpty()
-        .withMessage("la descripcion no puede ir vacia"),
-    handleInputErrors,
-    updateFormulario
-);
-
 formularioRouter.delete(
     "/:id",
     authenticate,
