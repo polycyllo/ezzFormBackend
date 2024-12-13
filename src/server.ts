@@ -29,7 +29,9 @@ const corsOptions: CorsOptions = {
         if (
             !origin ||
             origin === "http://localhost:5173" ||
-            origin === "http://26.156.22.45:5173"
+            origin === "http://26.156.22.45:5173" ||
+            origin === "proyecto-programacion-web-kappa.vercel.app" ||
+            origin === "https://proyecto-programacion-web-kappa.vercel.app"
         ) {
             callback(null, true);
         } else {
