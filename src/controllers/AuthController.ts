@@ -71,7 +71,7 @@ export class AuthController {
             const { correoelectronico, contrasenia } = req.body;
             console.log(
                 "correo de usuario y contra",
-                correoelectronico + contrasenia
+                correoelectronico + " " + contrasenia
             );
             const usuario = await Usuario.findOne({
                 where: {
@@ -114,7 +114,6 @@ export class AuthController {
             const token = generateJWT({
                 codusuario: usuario.codusuario,
             });
-
             res.cookie("authToken", token, {
                 httpOnly: false,
                 secure: process.env.NODE_ENV === "production",
@@ -122,6 +121,7 @@ export class AuthController {
                     process.env.NODE_ENV === "production" ? "strict" : "lax",
                 maxAge: 2 * 60 * 60 * 1000,
             });
+            console.log(token);
             res.send(token);
         } catch (error) {
             res.status(500).json({ error: "hubo un error" });
