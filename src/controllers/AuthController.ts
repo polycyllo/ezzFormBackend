@@ -115,6 +115,7 @@ export class AuthController {
                 httpOnly: false,
                 secure: true,
                 sameSite: "none",
+                domain: "proyecto-programacion-web-kappa.vercel.app",
                 maxAge: 10 * 60 * 60 * 1000,
             });
             console.log("este es el token ", token);
