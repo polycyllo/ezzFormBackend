@@ -113,9 +113,10 @@ export class AuthController {
                 codusuario: usuario.codusuario,
             });
             res.cookie("authToken", token, {
-                httpOnly: false,
+                httpOnly: true,
                 secure: true,
                 sameSite: "none",
+                domain: "proyecto-programacion-web-kappa.vercel.app",
                 maxAge: 10 * 60 * 60 * 1000,
             });
             console.log("este es el token ", token);
