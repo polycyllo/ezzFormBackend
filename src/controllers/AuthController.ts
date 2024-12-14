@@ -113,7 +113,7 @@ export class AuthController {
             });
             res.cookie("authToken", token, {
                 httpOnly: false,
-                secure: true,
+                secure: false,
                 sameSite: "lax",
                 maxAge: 2 * 60 * 60 * 1000,
             });
