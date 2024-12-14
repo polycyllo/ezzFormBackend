@@ -112,11 +112,10 @@ export class AuthController {
                 codusuario: usuario.codusuario,
             });
             res.cookie("authToken", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: "none",
+                httpOnly: false,
+                secure: true,
+                sameSite: "lax",
                 maxAge: 2 * 60 * 60 * 1000,
-                path: "/",
             });
             console.log("este es el token ", token);
             res.send(token);
