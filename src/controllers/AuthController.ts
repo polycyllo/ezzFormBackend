@@ -116,7 +116,6 @@ export class AuthController {
                 httpOnly: false,
                 secure: true,
                 sameSite: "none",
-                domain: process.env.HOST_RESPONSE,
                 maxAge: 10 * 60 * 60 * 1000,
             });
             console.log("este es el token ", token);
