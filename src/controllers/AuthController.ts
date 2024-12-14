@@ -163,7 +163,7 @@ export class AuthController {
 
     static getUsuario = async (req: Request, res: Response) => {
         const user = req.user.dataValues;
-        console.log(req);
+        console.log(user);
         const rol = await Rol.findOne({
             where: {
                 codusuario: user.codusuario,
