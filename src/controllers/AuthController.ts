@@ -8,8 +8,7 @@ import { check } from "express-validator";
 import { generateJWT } from "../utils/jwt";
 import { resolveHostname } from "nodemailer/lib/shared";
 import Rol from "../models/Rol.model";
-import dotenv from "dotenv";
-dotenv.config();
+
 export class AuthController {
     static createAccount = async (req: Request, res: Response) => {
         try {
@@ -116,7 +115,6 @@ export class AuthController {
                 httpOnly: true,
                 secure: true,
                 sameSite: "none",
-                domain: "proyecto-programacion-web-kappa.vercel.app",
                 maxAge: 10 * 60 * 60 * 1000,
             });
             console.log("este es el token ", token);

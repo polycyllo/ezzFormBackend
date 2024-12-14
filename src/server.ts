@@ -23,15 +23,14 @@ async function connectDB() {
 connectDB();
 
 const server = express();
-
 const corsOptions: CorsOptions = {
     origin: [
-        "http://localhost:5173",
-        "http://26.156.22.45:5173",
         "https://proyecto-programacion-web-kappa.vercel.app",
+        "http://localhost:5173", // Para pruebas locales.
     ],
     credentials: true, // Permite enviar cookies.
 };
+server.use(cors(corsOptions));
 server.use(cors(corsOptions));
 server.use(cookiePaser());
 server.use(morgan("dev"));
