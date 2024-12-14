@@ -111,6 +111,7 @@ export class AuthController {
             const token = generateJWT({
                 codusuario: usuario.codusuario,
             });
+            //si prueba en un entorno local entonces cambiar a false, false y lax, respectivamente
             res.cookie("authToken", token, {
                 httpOnly: true,
                 secure: true,
@@ -162,7 +163,6 @@ export class AuthController {
 
     static getUsuario = async (req: Request, res: Response) => {
         const user = req.user.dataValues;
-        console.log("entra al usuario ", user);
         const rol = await Rol.findOne({
             where: {
                 codusuario: user.codusuario,
