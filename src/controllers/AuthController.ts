@@ -124,7 +124,24 @@ export class AuthController {
             res.status(500).json({ error: "hubo un error" });
         }
     };
+    static logout = async (req: Request, res: Response) => {
+        try {
+            res.clearCookie("authToken", {
+                httpOnly: true,
+                secure: true,
+                sameSite: "none",
+            });
 
+            return res
+                .status(200)
+                .json({ message: "Sesión cerrada con éxito" });
+        } catch (error) {
+            console.error("Error cerrando sesión:", error);
+            return res
+                .status(500)
+                .json({ error: "Hubo un error cerrando la sesión" });
+        }
+    };
     static requestConfirmationToken = async (req: Request, res: Response) => {
         try {
             const { correoelectronico } = req.body;

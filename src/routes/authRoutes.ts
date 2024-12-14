@@ -40,7 +40,7 @@ router.post(
     handleInputErrors,
     AuthController.login
 );
-
+router.post("/logout", AuthController.logout);
 router.post(
     "/request-code",
     body("correoelectronico").isEmail().withMessage("correo no valido"),
