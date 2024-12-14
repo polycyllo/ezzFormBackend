@@ -112,9 +112,9 @@ export class AuthController {
                 codusuario: usuario.codusuario,
             });
             res.cookie("authToken", token, {
-                httpOnly: false,
-                secure: false,
-                sameSite: "lax",
+                httpOnly: true,
+                secure: true,
+                sameSite: "none",
                 maxAge: 10 * 60 * 60 * 1000,
             });
             console.log("este es el token ", token);
