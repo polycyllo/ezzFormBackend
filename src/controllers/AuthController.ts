@@ -113,8 +113,9 @@ export class AuthController {
             });
             res.cookie("authToken", token, {
                 httpOnly: false,
-                secure: true,
-                sameSite: "lax",
+                secure: false,
+                sameSite: "none", // Permite solicitudes cross-domain
+                domain: "proyecto-programacion-web-kappa.vercel.app",
                 maxAge: 10 * 60 * 60 * 1000,
             });
             console.log("este es el token ", token);
