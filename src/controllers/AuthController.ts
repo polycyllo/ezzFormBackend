@@ -112,8 +112,8 @@ export class AuthController {
                 codusuario: usuario.codusuario,
             });
             res.cookie("authToken", token, {
-                httpOnly: false,
-                secure: false,
+                httpOnly: true,
+                secure: true,
                 sameSite: "none",
                 maxAge: 10 * 60 * 60 * 1000,
             });
