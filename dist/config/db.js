@@ -5,11 +5,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
 const dotenv_1 = __importDefault(require("dotenv"));
+const Formulario_model_1 = __importDefault(require("../models/Formulario.model"));
+const FormularioRespondido_model_1 = __importDefault(require("../models/FormularioRespondido.model"));
+const FormularioToken_model_1 = __importDefault(require("../models/FormularioToken.model"));
+const Opcion_model_1 = __importDefault(require("../models/Opcion.model"));
+const Pregunta_model_1 = __importDefault(require("../models/Pregunta.model"));
+const RespuestaUsuario_1 = __importDefault(require("../models/RespuestaUsuario"));
+const Rol_model_1 = __importDefault(require("../models/Rol.model"));
+const Token_1 = __importDefault(require("../models/Token"));
+const Usuario_model_1 = __importDefault(require("../models/Usuario.model"));
 dotenv_1.default.config();
 const db = new sequelize_typescript_1.Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
     logging: false,
-    models: [__dirname + "/../models/**/*.ts"],
+    //models: [__dirname + "/../models/**/*.ts"],
+    models: [
+        Formulario_model_1.default,
+        FormularioRespondido_model_1.default,
+        FormularioToken_model_1.default,
+        Opcion_model_1.default,
+        Pregunta_model_1.default,
+        RespuestaUsuario_1.default,
+        Rol_model_1.default,
+        Token_1.default,
+        Usuario_model_1.default,
+    ],
 });
 exports.default = db;
 //dejar con lo de arriba en caso de usar una bd ya lista para hacer pruebas

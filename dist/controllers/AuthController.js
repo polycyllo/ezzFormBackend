@@ -15,7 +15,6 @@ class AuthController {
     static createAccount = async (req, res) => {
         try {
             const { contrasenia, correoelectronico } = req.body;
-            //Prevenir dup
             const userExist = await Usuario_model_1.default.findOne({
                 where: {
                     correoelectronico: correoelectronico,
@@ -36,7 +35,6 @@ class AuthController {
                 codusuario: usuario.codusuario,
                 nombrerol: "user",
             });
-            //enviar email
             AuthEmail_1.AuthEmail.sendConfirmationEmail({
                 correoelectronico: usuario.correoelectronico,
                 name: usuario.nombre + " " + usuario.apellido,
@@ -72,13 +70,11 @@ class AuthController {
     static login = async (req, res) => {
         try {
             const { correoelectronico, contrasenia } = req.body;
-            console.log("correo de usuario ", correoelectronico);
             const usuario = await Usuario_model_1.default.findOne({
                 where: {
                     correoelectronico: correoelectronico,
                 },
             });
-            console.log("sillegaaaaaa");
             if (!usuario) {
                 const error = new Error("Usuario no encontrado");
                 return res.status(401).json({ error: error.message });
@@ -88,7 +84,6 @@ class AuthController {
                 token.iduser = usuario.codusuario;
                 token.token = (0, token_1.generateToken)();
                 await token.save();
-                //enviar email
                 AuthEmail_1.AuthEmail.sendConfirmationEmail({
                     correoelectronico: usuario.correoelectronico,
                     name: usuario.nombre + " " + usuario.apellido,
@@ -104,15 +99,14 @@ class AuthController {
             }
             const token = (0, jwt_1.generateJWT)({
                 codusuario: usuario.codusuario,
-                //rol: rol.nombrerol || "user",
             });
             res.cookie("authToken", token, {
                 httpOnly: false,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
-                maxAge: 2 * 60 * 60 * 1000,
+                secure: false,
+                sameSite: "lax",
+                maxAge: 10 * 60 * 60 * 1000,
             });
-            //console.log("token ", token);
+            console.log("este es el token ", token);
             res.send(token);
         }
         catch (error) {
@@ -154,6 +148,7 @@ class AuthController {
     };
     static getUsuario = async (req, res) => {
         const user = req.user.dataValues;
+        console.log(req);
         const rol = await Rol_model_1.default.findOne({
             where: {
                 codusuario: user.codusuario,

@@ -16,11 +16,6 @@ formularioRouter.post("/", auth_1.authenticate, (0, authWithRol_1.authenticateAn
     .notEmpty()
     .withMessage("La descripcion del form no puede ir vacio"), validation_1.handleInputErrors, formulario_1.createFormulario);
 formularioRouter.post("/:id/compartir", auth_1.authenticate, (0, authWithRol_1.authenticateAndAuthorize)("user"), (0, express_validator_1.param)("id").isInt().withMessage("El ID del formulario debe ser un entero"), validation_1.handleInputErrors, formulario_1.createTokenForm);
-formularioRouter.put("/:id", (0, express_validator_1.param)("id").isInt().withMessage("id no valido"), (0, express_validator_1.body)("nombreformulario")
-    .notEmpty()
-    .withMessage("el nombre del form no puede ir vacio"), (0, express_validator_1.body)("descripcion")
-    .notEmpty()
-    .withMessage("la descripcion no puede ir vacia"), validation_1.handleInputErrors, formulario_1.updateFormulario);
 formularioRouter.delete("/:id", auth_1.authenticate, (0, authWithRol_1.authenticateAndAuthorize)("user"), (0, express_validator_1.param)("id").isInt().withMessage("id no valido"), validation_1.handleInputErrors, formulario_1.deleteFormulario);
 router.use("/formulario", formularioRouter);
 exports.default = router;
