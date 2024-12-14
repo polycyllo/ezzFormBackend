@@ -112,12 +112,12 @@ export class AuthController {
                 codusuario: usuario.codusuario,
             });
             res.cookie("authToken", token, {
-                httpOnly: true,
-                secure: true,
+                httpOnly: false,
+                secure: false,
                 sameSite: "none",
                 maxAge: 10 * 60 * 60 * 1000,
             });
-            console.log("este es el token ", token);
+            ///console.log("este es el token ", token);
             res.send(token);
         } catch (error) {
             res.status(500).json({ error: "hubo un error" });
