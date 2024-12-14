@@ -13,12 +13,12 @@ export const authenticate = async (
     res: Response,
     next: NextFunction
 ) => {
-    const bearer = req.headers.authorization;
-    if (!bearer) {
+    const token = req.cookies.authToken;
+    if (!token) {
         const error = new Error("No autorizado");
         return res.status(401).json({ error: error.message });
     }
-    const [, token] = bearer.split(" ");
+
     try {
         const decoded = jwt.verify(token, process.env.JSW_PWD);
 
@@ -37,12 +37,14 @@ export const authenticate = async (
             });
             if (usuario) {
                 req.user = usuario;
-                next();
+                return next();
             } else {
-                res.status(500).json({ error: "Token no valido" });
+                return res.status(401).json({ error: "Token no válido" });
             }
+        } else {
+            return res.status(401).json({ error: "Token no válido" });
         }
     } catch (error) {
-        res.status(500).json({ error: "Token novalido" });
+        return res.status(401).json({ error: "Token no válido" });
     }
 };

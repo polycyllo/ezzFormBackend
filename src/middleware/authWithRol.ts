@@ -13,13 +13,12 @@ declare global {
 
 export const authenticateAndAuthorize = (requiredRole?: string) => {
     return async (req: Request, res: Response, next: NextFunction) => {
-        const bearer = req.headers.authorization;
-        if (!bearer) {
+        const token = req.cookies.authToken;
+        if (!token) {
             const error = new Error("No autorizado");
             return res.status(401).json({ error: error.message });
         }
 
-        const [, token] = bearer.split(" ");
         try {
             const decoded = jwt.verify(token, process.env.JSW_PWD);
 
@@ -38,12 +37,11 @@ export const authenticateAndAuthorize = (requiredRole?: string) => {
                 });
 
                 if (!usuario) {
-                    return res
-                        .status(500)
-                        .json({
-                            error: "Token no válido: usuario no encontrado",
-                        });
+                    return res.status(401).json({
+                        error: "Token no válido: usuario no encontrado",
+                    });
                 }
+
                 if (requiredRole) {
                     const roles = await Rol.findAll({
                         where: { codusuario: usuario.codusuario },
@@ -54,21 +52,19 @@ export const authenticateAndAuthorize = (requiredRole?: string) => {
                     );
 
                     if (!tieneRol) {
-                        return res
-                            .status(403)
-                            .json({
-                                error: `Acceso denegado: se requiere el rol ${requiredRole}`,
-                            });
+                        return res.status(403).json({
+                            error: `Acceso denegado: se requiere el rol ${requiredRole}`,
+                        });
                     }
                 }
 
                 req.user = usuario;
-                next();
+                return next();
             } else {
-                res.status(500).json({ error: "Token no válido" });
+                return res.status(401).json({ error: "Token no válido" });
             }
         } catch (error) {
-            res.status(500).json({ error: "Token inválido o expirado" });
+            return res.status(401).json({ error: "Token inválido o expirado" });
         }
     };
 };

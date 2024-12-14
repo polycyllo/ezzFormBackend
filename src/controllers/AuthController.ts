@@ -112,9 +112,9 @@ export class AuthController {
                 codusuario: usuario.codusuario,
             });
             res.cookie("authToken", token, {
-                httpOnly: true,
-                secure: true,
-                sameSite: "none",
+                httpOnly: false,
+                secure: false,
+                sameSite: "lax",
                 maxAge: 10 * 60 * 60 * 1000,
             });
             ///console.log("este es el token ", token);
@@ -128,7 +128,6 @@ export class AuthController {
         try {
             const { correoelectronico } = req.body;
 
-            //este usuario tiene que existir
             const usuario = await Usuario.findOne({
                 where: {
                     correoelectronico: correoelectronico,
@@ -163,7 +162,7 @@ export class AuthController {
 
     static getUsuario = async (req: Request, res: Response) => {
         const user = req.user.dataValues;
-        console.log(user);
+        console.log("entra al usuario ", user);
         const rol = await Rol.findOne({
             where: {
                 codusuario: user.codusuario,
