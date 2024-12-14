@@ -112,11 +112,11 @@ export class AuthController {
                 codusuario: usuario.codusuario,
             });
             res.cookie("authToken", token, {
-                httpOnly: false,
+                httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
-                sameSite:
-                    process.env.NODE_ENV === "production" ? "strict" : "lax",
+                sameSite: "none",
                 maxAge: 2 * 60 * 60 * 1000,
+                path: "/",
             });
             console.log("este es el token ", token);
             res.send(token);
@@ -164,7 +164,7 @@ export class AuthController {
 
     static getUsuario = async (req: Request, res: Response) => {
         const user = req.user.dataValues;
-
+        console.log(req);
         const rol = await Rol.findOne({
             where: {
                 codusuario: user.codusuario,
