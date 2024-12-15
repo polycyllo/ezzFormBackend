@@ -29,7 +29,7 @@ class Opcion extends Model {
     declare codpregunta: number;
 
     @Column({
-        type: DataType.STRING(300),
+        type: DataType.STRING(1000),
     })
     declare textoopcion: string;
 

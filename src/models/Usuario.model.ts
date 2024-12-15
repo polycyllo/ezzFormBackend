@@ -27,20 +27,20 @@ class Usuario extends Model {
     declare codusuario: number;
 
     @Column({
-        type: DataType.STRING(30),
+        type: DataType.STRING(100),
         allowNull: false,
     })
     declare nombre: string;
 
     @Column({
-        type: DataType.STRING(30),
+        type: DataType.STRING(100),
         allowNull: false,
     })
     declare apellido: string;
 
     @Unique
     @Column({
-        type: DataType.STRING(40),
+        type: DataType.STRING(100),
         allowNull: false,
     })
     declare correoelectronico: string;

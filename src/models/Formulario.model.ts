@@ -33,12 +33,12 @@ class Formulario extends Model {
     declare usuario: Usuario;
 
     @Column({
-        type: DataType.STRING(100),
+        type: DataType.STRING(500),
     })
     declare nombreformulario: string;
 
     @Column({
-        type: DataType.STRING(500),
+        type: DataType.STRING(1000),
     })
     declare descripcion: string;
 

@@ -47,7 +47,7 @@ export default class RespuestaUsuario extends Model {
     declare formularioRespondido: FormularioRespondido;
 
     @Column({
-        type: DataType.STRING(300),
+        type: DataType.STRING(2000),
         allowNull: true,
     })
     declare respuestatexto: string;

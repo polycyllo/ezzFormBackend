@@ -29,12 +29,12 @@ class Pregunta extends Model {
     declare codformulario: number;
 
     @Column({
-        type: DataType.STRING(100),
+        type: DataType.STRING(1000),
     })
     declare pregunta: string;
 
     @Column({
-        type: DataType.STRING(30),
+        type: DataType.STRING(100),
     })
     declare tipopregunta: string;
 
